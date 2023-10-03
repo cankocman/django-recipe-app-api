@@ -15,17 +15,15 @@ class Command(BaseCommand):
     def handle(self, *args, **options):
         """django cmd to wait for db"""
 
-        def handle(self):
-            self.stdout.write('Waiting for db...')
+        self.stdout.write('Waiting for db...')
 
-            db_up = False
-            while db_up is False:
-                try:
-                    self.check(databases=['default'])
-                    db_up = True
-                except (Psycopg2OpError, OperationalError):
-                    self.stdout.write(
-                        'Database not available, waiting 1 sec ...')
-                    time.sleep(1)
-
-                self.stdout.write(self.style.SUCCESS('Database available!'))
+        db_up = False
+        while db_up is False:
+            try:
+                self.check(databases=['default'])
+                db_up = True
+            except (Psycopg2OpError, OperationalError):
+                self.stdout.write(
+                    'Database not available, waiting 1 sec ...')
+                time.sleep(1)
+            self.stdout.write(self.style.SUCCESS('Database available!'))
